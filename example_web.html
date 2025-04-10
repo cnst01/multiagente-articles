@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            color: #1a0dab;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            outline: none;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(223,225,229,0);
+        }
+
+        .result-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            display: none;
+            color: #70757a;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .error {
+            color: #dc3545;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">Article Generator</div>
+    
+    <div class="search-container">
+        <input 
+            type="text" 
+            class="search-input" 
+            id="topicInput"
+            placeholder="Digite o tópico do artigo..."
+            autocomplete="off"
+            autofocus
+        >
+        <div class="loading" id="loading">Gerando artigo...</div>
+        <div class="error" id="error"></div>
+    </div>
+
+    <div class="result-container" id="resultContainer"></div>
+
+    <script>
+        const topicInput = document.getElementById('topicInput');
+        const resultContainer = document.getElementById('resultContainer');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+
+        async function generateArticle(topic) {
+            try {
+                loading.style.display = 'block';
+                error.textContent = '';
+                resultContainer.textContent = '';
+
+                const response = await fetch(`http://127.0.0.1:8000/generate_article?topic=${encodeURIComponent(topic)}`);
+                
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+
+                const data = await response.json();
+                // Acessa diretamente a propriedade content do JSON
+                if (data.content) {
+                    resultContainer.textContent = data.content;
+                } else {
+                    throw new Error('Formato de resposta inválido');
+                }
+                
+            } catch (err) {
+                error.textContent = 'Erro ao gerar o artigo. Por favor, tente novamente.';
+                console.error(err);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        topicInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const topic = topicInput.value.trim();
+                if (topic) {
+                    generateArticle(topic);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
