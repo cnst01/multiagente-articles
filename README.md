@@ -74,7 +74,7 @@ Este projeto demonstra um sistema multiagente utilizando CrewAI para automatizar
 
         Garante que o artigo contenha no mínimo 300 palavras.
 
-        Se necessário, expande o conteúdo utilizando a API do Groq (ou outro LLM) para gerar conteúdo adicional.
+        Se necessário, expande ou resume o conteúdo utilizando a API do Groq (ou outro LLM). 
 
         A função call_groq_llm realiza a chamada autenticada à API, enviando o prompt e recuperando o texto gerado.
 
@@ -99,6 +99,22 @@ O sistema utiliza técnicas de engenharia de prompts para:
     Definir no prompt a quantidade aproximada de palavras a serem adicionadas para atingir o mínimo exigido.
 
     Ajustar o modelo e os parâmetros de geração conforme o necessário, garantindo a qualidade e relevância do artigo.
+
+## Possíveis Melhorias
+
+**Implementação de IA para generalizar pesquisa**
+Em breve seria interessante implementar um algorítmo para quando o tema não for encontrado diretamente, a ideia seria pegar esse tema, generaliza-lo e tentar buscar novamente.
+
+Exemplo: usuário coloca "Características de uma Lavadoura de Roupas" -> api da Wikipedia não encontra página -> manda tema para IA -> IA retorna tema genérico "Lavadoura de Roupas" -> api da Wikipedia encontra página -> IA resume, modifica ou completa artigo"
+
+**Qualidade do Conteúdo e Flexibilidade:**
+
+Múltiplas fontes de conteúdo: Permitir que o sistema busque conteúdo de diversas fontes além da Wikipedia, como outras APIs de conhecimento, bancos de dados ou até mesmo arquivos locais. Isso aumentaria a diversidade e a qualidade do conteúdo base.
+    
+Parâmetros de geração mais flexíveis: Expor mais parâmetros para o cliente controlar a geração do artigo, como o estilo de escrita, o nível de detalhe, a inclusão de seções específicas, etc.
+    
+Avaliação e refinamento do conteúdo gerado: Implementar mecanismos para avaliar a qualidade do artigo gerado (por exemplo, usando métricas de linguagem natural) e potencialmente adicionar um estágio de refinamento ou edição.
+
 
 **Contribuição**
 
