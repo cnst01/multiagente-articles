@@ -1,11 +1,11 @@
 # Multiagente de Geração de Artigos com CrewAI
 
-Este projeto demonstra um sistema multiagente utilizando CrewAI para automatizar a criação de artigos para um website. O sistema gera artigos com no mínimo 300 palavras sobre um determinado assunto, utilizando a API da Wikipedia para obter informações relevantes e LLMs para expandir o conteúdo.
+Em resumo, esta é uma aplicação FastAPI que possui um endpoint /generate_article que recebe um tópico, busca conteúdo relacionado (na Wikipedia), utiliza um agente para gerar ou expandir um artigo sobre o tópico (com um mínimo de 300 palavras, utilizando uma API da Groq), e retorna o título e o conteúdo do artigo como uma resposta JSON. A aplicação também configura o middleware de CORS para permitir requisições de qualquer origem (útil para desenvolvimento) e carrega variáveis de ambiente de um arquivo .env. Finalmente, se o script for executado diretamente, ele inicia um servidor Uvicorn para servir a aplicação. Também foi adicionado um .html de exemplo para testar o uso da API.
 
 ## Funcionalidades
 
 - **Agente de Conteúdo:** Consulta a API da Wikipedia e extrai o conteúdo textual do tópico.
-- **Agente de Geração de Artigos:** Garante que o artigo tenha no mínimo 300 palavras, utilizando a API do Groq para expandir o texto caso necessário.
+- **Agente de Geração de Artigos:** Garante que o artigo tenha no mínimo 300 palavras, utilizando a API do Groq para expandir, modificar ou resumir o texto caso necessário.
 - **Integração com LLM:** Realiza a chamada ao modelo de linguagem (Groq) enviando um prompt e recebendo o conteúdo gerado.
 - **API com FastAPI:** Exposição de um endpoint para geração do artigo.
 - **Output Formatado com Pydantic:** Estrutura a resposta com modelos Pydantic.
@@ -57,6 +57,12 @@ Este projeto demonstra um sistema multiagente utilizando CrewAI para automatizar
        Para gerar um artigo, envie uma requisição GET para:
 
        /generate_article?topic=Futebol
+
+7. **Utilize com uma WebPage**
+
+       Abra com um navegador o "example_web.html"
+
+       ou crie sua própria página
 
 ## Detalhes da Implementação
 
